@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veridicus OS - BMC 2.1 (Editor Inline)</title>
+    <title>Veridicus OS - Business Model Canvas 2.1</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
     <style>
         body { 
             font-family: 'Inter', sans-serif; 
@@ -16,118 +16,121 @@
             flex-direction: column;
         }
 
-        /* Grade BMC Rigorosa */
+        /* Grade BMC Profissional com Proporções Fixas Otimizadas */
         .bmc-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            grid-template-rows: repeat(2, 1fr) 0.45fr;
-            gap: 1px;
+            /* Proporções ideais: Linha 1 (Recursos/Destaque), Linha 2 (Atividades), Linha 3 (Financeiro) */
+            grid-template-rows: minmax(0, 1.2fr) minmax(0, 0.8fr) minmax(0, 0.7fr);
+            gap: 10px;
             flex-grow: 1;
-            padding: 4px;
-            background-color: #94a3b8; 
+            padding: 10px;
+            background-color: #cbd5e1; 
             min-height: 0;
             margin-bottom: 8px;
         }
 
         .bmc-block {
-            @apply p-2 flex flex-col overflow-hidden min-h-0 bg-white relative group;
+            @apply p-4 flex flex-col overflow-hidden min-h-0 bg-white relative group rounded-xl shadow-sm border border-slate-200 transition-all duration-200;
+        }
+
+        .bmc-block:hover {
+            @apply shadow-md border-blue-400;
         }
 
         .block-header {
-            @apply flex items-center justify-between mb-1 border-b border-black/5 pb-0.5 flex-shrink-0;
-        }
-
-        .block-title-content {
-            @apply flex items-center gap-1.5;
+            @apply flex items-start justify-between mb-3 flex-shrink-0;
         }
 
         .block-title {
-            @apply font-black text-[8px] uppercase tracking-wider;
+            @apply font-black text-[11px] uppercase tracking-widest leading-none;
         }
 
+        /* Ícones Grandes */
         .icon-svg {
-            width: 18px;
-            height: 18px;
-            @apply flex-shrink-0 opacity-80;
+            width: 32px;
+            height: 32px;
+            @apply flex-shrink-0 opacity-90 transition-transform group-hover:scale-110;
         }
 
-        /* Botão Editar */
         .edit-trigger {
-            @apply opacity-0 group-hover:opacity-100 p-0.5 hover:bg-slate-100 rounded transition-all text-slate-300 hover:text-blue-500 cursor-pointer;
+            @apply opacity-0 group-hover:opacity-100 p-1.5 hover:bg-slate-100 rounded-full transition-all text-slate-400 hover:text-blue-600 cursor-pointer shadow-sm;
         }
 
+        /* Listas com Texto Legível */
         .item-list {
-            @apply space-y-0.5 overflow-y-auto pr-0.5 flex-grow;
-            scrollbar-width: none;
+            @apply space-y-1.5 overflow-y-auto pr-1 flex-grow;
+            scrollbar-width: thin;
         }
-        .item-list::-webkit-scrollbar { display: none; }
+        .item-list::-webkit-scrollbar { width: 5px; }
+        .item-list::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
 
         .item-list li {
-            @apply text-[8.2px] leading-[1.1] text-slate-800 flex gap-1 items-start font-medium;
+            @apply text-[11.5px] leading-tight text-slate-700 flex gap-2 items-start font-semibold;
         }
 
-        .dot { @apply font-bold text-[7px] mt-0.5 flex-shrink-0; }
+        .dot { @apply font-black text-[9px] mt-1 flex-shrink-0; }
 
-        /* Estilo do Editor Inline */
+        /* Editor Inline */
         .inline-editor {
-            @apply flex flex-col flex-grow w-full h-full gap-1;
+            @apply flex flex-col flex-grow w-full h-full gap-2;
         }
         .inline-textarea {
-            @apply w-full flex-grow p-1 text-[8.2px] border border-blue-200 rounded outline-none focus:ring-1 focus:ring-blue-400 leading-tight resize-none bg-blue-50/30;
+            @apply w-full flex-grow p-3 text-[11px] border-2 border-blue-100 rounded-xl outline-none focus:border-blue-500 leading-relaxed resize-none bg-white font-medium shadow-inner;
         }
         .inline-actions {
-            @apply flex gap-1 justify-end mt-1;
+            @apply flex gap-2 justify-end mt-1;
         }
         .btn-mini {
-            @apply px-1.5 py-0.5 text-[7px] font-bold uppercase rounded transition-colors;
+            @apply px-4 py-1.5 text-[10px] font-bold uppercase rounded-lg transition-all shadow-sm active:scale-95;
         }
 
-        /* Cores das Seções */
+        /* Posicionamento Clássico com a nova hierarquia */
         .partners { grid-column: 1; grid-row: 1 / span 2; background-color: #f0f9ff; } 
-        .activities { grid-column: 2; grid-row: 1; background-color: #fffaf0; } 
-        .resources { grid-column: 2; grid-row: 2; background-color: #faf5ff; } 
-        .propositions { grid-column: 3; grid-row: 1 / span 2; background-color: #fdf2f8; } 
+        .resources { grid-column: 2; grid-row: 1; background-color: #faf5ff; } 
+        .activities { grid-column: 2; grid-row: 2; background-color: #fffaf0; } 
+        .propositions { grid-column: 3; grid-row: 1 / span 2; background-color: #fff1f2; } 
         .relationships { grid-column: 4; grid-row: 1; background-color: #f0fdf4; } 
         .channels { grid-column: 4; grid-row: 2; background-color: #f0fdfa; } 
         .segments { grid-column: 5; grid-row: 1 / span 2; background-color: #eff6ff; } 
         .costs { grid-column: 1 / span 2; grid-row: 3; background-color: #fef2f2; } 
         .revenues { grid-column: 3 / span 3; grid-row: 3; background-color: #f0fdf4; } 
 
-        .section-accent-blue { @apply text-blue-600; }
-        .section-accent-orange { @apply text-orange-600; }
-        .section-accent-purple { @apply text-purple-600; }
-        .section-accent-pink { @apply text-pink-600; }
-        .section-accent-green { @apply text-green-600; }
-        .section-accent-teal { @apply text-teal-600; }
-        .section-accent-indigo { @apply text-indigo-600; }
-        .section-accent-red { @apply text-red-600; }
+        .accent-blue { @apply text-blue-600; }
+        .accent-orange { @apply text-orange-600; }
+        .accent-purple { @apply text-purple-600; }
+        .accent-pink { @apply text-rose-600; }
+        .accent-green { @apply text-green-600; }
+        .accent-teal { @apply text-teal-600; }
+        .accent-indigo { @apply text-indigo-600; }
+        .accent-red { @apply text-red-600; }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             body { overflow: auto; height: auto; }
-            .bmc-grid { display: flex; flex-direction: column; height: auto; margin-bottom: 16px; }
+            .bmc-grid { display: flex; flex-direction: column; height: auto; margin-bottom: 24px; }
             .edit-trigger { @apply opacity-100; }
         }
 
-        /* Notificações */
         #notification-box {
             position: fixed;
-            top: 20px;
+            top: 24px;
             left: 50%;
-            transform: translateX(-50%) translateY(-100px);
+            transform: translateX(-50%) translateY(-120px);
             background-color: #0f172a;
             color: white;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: bold;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding: 14px 30px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             z-index: 10000;
             opacity: 0;
-            transition: all 0.4s ease;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             pointer-events: none;
+            border: 1px solid #334155;
         }
         #notification-box.show {
             transform: translateX(-50%) translateY(0);
@@ -135,94 +138,102 @@
         }
     </style>
 </head>
-<body class="p-1">
+<body class="p-3">
 
     <div id="notification-box">
         <div id="notif-icon-container"></div>
         <span id="notif-message"></span>
     </div>
 
-    <header class="flex justify-between items-center px-2 py-0.5 flex-shrink-0">
-        <div class="flex items-baseline gap-2">
-            <h1 class="text-base font-black text-slate-900 tracking-tighter leading-none uppercase">Veridicus <span class="text-blue-600">OS</span></h1>
-            <p class="text-[7.5px] font-bold text-slate-400 uppercase tracking-widest">BMC 2.1 • Documentação Linear</p>
+    <header class="flex justify-between items-center px-5 py-3 flex-shrink-0 bg-white/40 rounded-2xl mb-2 backdrop-blur-md border border-white/50">
+        <div class="flex flex-col">
+            <h1 class="text-2xl font-black text-slate-900 tracking-tight leading-none uppercase">
+                Veridicus <span class="text-blue-600">OS</span>
+            </h1>
+            <p class="text-[10px] font-extrabold text-slate-500 uppercase tracking-[0.4em] mt-1.5">
+                Business Model Canvas • Engenharia Pericial
+            </p>
         </div>
-        <div class="flex gap-2">
-            <button onclick="copyLatex()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-1 rounded-md font-bold text-[7px] transition-all uppercase tracking-widest flex items-center gap-1.5 shadow-sm">
-                <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+        <div class="flex gap-4">
+            <button onclick="copyLatex()" class="bg-white hover:bg-slate-50 text-slate-700 px-5 py-2.5 rounded-2xl font-bold text-xs transition-all uppercase tracking-wider flex items-center gap-2 shadow-sm border border-slate-200">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
                 Copiar LaTeX
             </button>
-            <button onclick="downloadLatex()" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-md font-bold text-[7px] flex items-center gap-1.5 transition-all uppercase tracking-widest shadow-md">
-                <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            <button onclick="downloadLatex()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-2xl font-bold text-xs transition-all uppercase tracking-wider flex items-center gap-2 shadow-xl shadow-blue-500/20">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                 Baixar .TEX
             </button>
         </div>
     </header>
 
     <div id="canvas-grid" class="bmc-grid">
-        <!-- Conteúdo Gerado pelo JS -->
+        <!-- Renderizado dinamicamente -->
     </div>
 
-    <footer class="flex justify-between px-3 py-1 text-[6.5px] text-slate-400 font-bold uppercase tracking-widest flex-shrink-0 border-t border-slate-200 bg-white/50">
-        <span>Veridicus OS © 2024</span>
-        <a href="https://periciascamara.editoraviva.art.br" target="_blank" class="text-[10px] text-blue-500 hover:underline transition-all font-bold">periciascamara.editoraviva.art.br</a>
+    <footer class="flex justify-between px-5 py-2 text-[9px] text-slate-400 font-bold uppercase tracking-widest flex-shrink-0 border-t border-slate-200 bg-white/80 backdrop-blur-md">
+        <div class="flex items-center gap-5">
+            <span>© 2024 Veridicus I.A.</span>
+            <span class="text-slate-300">|</span>
+            <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> Sistema Ativo</span>
+        </div>
+        <a href="https://periciascamara.editoraviva.art.br" target="_blank" class="text-[12px] text-blue-600 hover:text-blue-800 transition-colors font-black underline decoration-blue-300 underline-offset-4 decoration-2">
+            periciascamara.editoraviva.art.br
+        </a>
     </footer>
 
     <script>
+        // Dados do BMC Consolidados
         let bmcData = {
             partners: { 
-                title: "Parcerias Chave", 
-                accent: "blue",
+                title: "Parcerias Chave", accent: "blue",
                 icon: '<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/>',
-                items: ["Influenciadores de Perícia", "Lawtech (Notion/Advogados)", "Fintech (Judibank)", "PoC Judiciário (Varas)", "Editora Viva (Livros IA)", "Institutos de Perícia Médica"]
-            },
-            activities: { 
-                title: "Atividades Chave", 
-                accent: "orange",
-                icon: '<path d="M13 10V3L4 14h7v7l9-11h-7z"/>',
-                items: ["Engenharia Notion OS", "Aperfeiçoamento Agentes IA", "Marketing Dor & Alívio", "Curadoria Jurídica"]
+                items: ["Hubs Jurídicos (AB2L, Inverso HUB)", "Influenciadores de Perícia", "Centrais de Perícia", "Lawtech (Notion/Advogados)", "Fintech (Judibank)", "PoC Judiciário (Varas)", "Editora Viva (Livros IA)", "Institutos de Perícia Médica"]
             },
             resources: { 
-                title: "Recursos Chave", 
-                accent: "purple",
+                title: "Recursos Chave", accent: "purple",
                 icon: '<path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18"/>',
-                items: ["Codificação LaTeX Exclusiva", "Wiki e Base de FAQ", "Agentes IA Treinados", "Infra SaaS (Notion)"]
+                items: ["Web App Kriterio", "Veridicus Plataforma", "Sistema operacional Veridicus OS", "Codificação LaTeX Exclusiva", "Wiki e Base de FAQ", "Agentes IA Treinados", "Infra SaaS (Notion)"]
+            },
+            activities: { 
+                title: "Atividades Chave", accent: "orange",
+                icon: '<path d="M13 10V3L4 14h7v7l9-11h-7z"/>',
+                items: ["Engenharia Notion OS", "Aperfeiçoamento Agentes IA", "Curadoria Jurídica"]
             },
             propositions: { 
-                title: "Propostas de Valor", 
-                accent: "pink",
+                title: "Propostas de Valor", accent: "pink",
                 icon: '<path d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12z"/>',
-                items: ["Multiplicação da Atuação", "I.A. Especialista Pericial", "Automação LaTeX", "Semáforo Anti-destituição", "Auditoria de Honorários"]
+                items: ["Multiplicação da Atuação", "HuB multiprofissional", "I.A. Especialista Pericial", "Automação LaTeX", "Semáforo Anti-destituição", "Auditoria de Honorários"]
             },
             relationships: { 
-                title: "Relacionamento", 
-                accent: "green",
+                title: "Relacionamento", accent: "green",
                 icon: '<path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.061-1.061a4.5 4.5 0 00-6.364 0z"/>',
-                items: ["Assistência B2B High Ticket", "Grupos de Networking", "Co-criação com Peritos", "Wiki de Autoatendimento"]
+                items: ["Marketing de Dor & Alívio", "Assistência B2B High Ticket", "Grupos de Networking", "Co-criação com Peritos", "Wiki de Autoatendimento"]
             },
             channels: { 
-                title: "Canais", 
-                accent: "teal",
+                title: "Canais", accent: "teal",
                 icon: '<path d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>',
-                items: ["Download Imediato", "Vídeos \"Dor & Alívio\"", "Marketplace de Templates", "YouTube e Webinars"]
+                items: ["LinkedIn (Rede Social Profissional)", "Eventos Jurídicos", "Download Imediato", "Vídeos \"Dor & Alívio\"", "Marketplace de Templates", "YouTube e Webinars"]
             },
             segments: { 
-                title: "Segmentos", 
-                accent: "indigo",
+                title: "Segmentos de Cliente", accent: "indigo",
                 icon: '<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>',
-                items: ["Peritos (Médicos/Eng/Cont)", "PF (Ticket Direto / Resumo)", "B2B: Seguradoras/Med Trab", "Escritórios de Advocacia", "Judiciário (Varas)"]
+                items: ["Equipe multiprofissional de pericia judicial", "Advogados", "Jurídicos de Empresas", "Peritos (Médicos/Eng/Cont)", "PF (Ticket Direto / Resumo)", "Seguradoras/Med Trab", "Judiciário (Varas)"]
             },
             costs: { 
-                title: "Custos", 
-                accent: "red",
+                title: "Estrutura de Custos", accent: "red",
                 icon: '<path d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z"/>',
-                items: ["Marketing (CAC/Ads)", "SaaS (Notion/IA/APIs)", "Equipe Enxuta & Operação"]
+                items: ["Marketing (CAC/Ads)", "SaaS (Notion/IA/APIs)", "Equipe Enxuta & Operação", "Impostos e Taxas Operacionais"]
             },
             revenues: { 
-                title: "Receitas", 
-                accent: "green",
+                title: "Fontes de Receita", accent: "green",
                 icon: '<path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2"/>',
-                items: ["Venda Template (R$ 297-497)", "Clube Veridicus (Recorrência)", "Packs de Expansão & Setup B2B"]
+                items: [
+                    "Venda Template (R$ 297-497)", 
+                    "Calculadoras Kriterio (R$ 97,00 cada)",
+                    "Clube Veridicus (R$ 49,90 - R$ 97/mês)", 
+                    "Instalação p/ Jurídico (R$ 500-1000)",
+                    "Packs de Expansão & Setup B2B"
+                ]
             }
         };
 
@@ -232,74 +243,54 @@
         function renderCanvas() {
             const grid = document.getElementById('canvas-grid');
             grid.innerHTML = '';
+            const order = ['partners', 'resources', 'activities', 'propositions', 'relationships', 'channels', 'segments', 'costs', 'revenues'];
 
-            Object.keys(bmcData).forEach(key => {
+            order.forEach(key => {
                 const data = bmcData[key];
                 const block = document.createElement('div');
                 block.className = `bmc-block ${key}`;
-                
                 const isEditing = editingKey === key;
 
-                let contentHtml = "";
-
                 if (isEditing) {
-                    contentHtml = `
+                    block.innerHTML = `
+                        <div class="block-header">
+                            <h2 class="block-title accent-${data.accent}">Editando ${data.title}</h2>
+                        </div>
                         <div class="inline-editor">
                             <textarea id="textarea-${key}" class="inline-textarea">${data.items.join('\n')}</textarea>
                             <div class="inline-actions">
-                                <button onclick="cancelEdit()" class="btn-mini bg-slate-100 text-slate-500 hover:bg-slate-200">Canc</button>
-                                <button onclick="saveEdit('${key}')" class="btn-mini bg-blue-600 text-white hover:bg-blue-700">OK</button>
+                                <button onclick="cancelEdit()" class="btn-mini bg-slate-100 text-slate-500">Voltar</button>
+                                <button onclick="saveEdit('${key}')" class="btn-mini bg-blue-600 text-white">Salvar</button>
                             </div>
                         </div>
                     `;
                 } else {
-                    contentHtml = `
+                    block.innerHTML = `
+                        <div class="block-header">
+                            <div class="block-title-content">
+                                <svg class="icon-svg accent-${data.accent}" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">${data.icon}</svg>
+                                <h2 class="block-title accent-${data.accent}">${data.title}</h2>
+                            </div>
+                            <div onclick="startEditing('${key}')" class="edit-trigger">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                            </div>
+                        </div>
                         <ul class="item-list">
-                            ${data.items.map(item => `<li><span class="dot section-accent-${data.accent}">▪</span>${item}</li>`).join('')}
+                            ${data.items.map(item => `<li><span class="dot accent-${data.accent}">▪</span>${item}</li>`).join('')}
                         </ul>
                     `;
                 }
-
-                block.innerHTML = `
-                    <div class="block-header">
-                        <div class="block-title-content">
-                            <svg class="icon-svg section-accent-${data.accent}" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">${data.icon}</svg>
-                            <h2 class="block-title section-accent-${data.accent}">${data.title}</h2>
-                        </div>
-                        <div onclick="startEditing('${key}')" class="edit-trigger ${isEditing ? 'hidden' : ''}">
-                            <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-                        </div>
-                    </div>
-                    ${contentHtml}
-                `;
                 grid.appendChild(block);
-
-                if (isEditing) {
-                    const textarea = document.getElementById(`textarea-${key}`);
-                    textarea.focus();
-                    textarea.selectionStart = textarea.value.length;
-                }
+                if (isEditing) document.getElementById(`textarea-${key}`).focus();
             });
         }
 
-        function startEditing(key) {
-            editingKey = key;
-            renderCanvas();
-        }
-
-        function cancelEdit() {
-            editingKey = null;
-            renderCanvas();
-        }
-
+        function startEditing(key) { editingKey = key; renderCanvas(); }
+        function cancelEdit() { editingKey = null; renderCanvas(); }
         function saveEdit(key) {
             const textarea = document.getElementById(`textarea-${key}`);
-            const newItems = textarea.value.split('\n').map(i => i.trim()).filter(i => i !== "");
-            
-            bmcData[key].items = newItems;
-            editingKey = null;
-            renderCanvas();
-            showAlert("Seção atualizada!");
+            bmcData[key].items = textarea.value.split('\n').map(i => i.trim()).filter(i => i !== "");
+            editingKey = null; renderCanvas(); showAlert("Segmento atualizado!");
         }
 
         function showAlert(message, type = 'success') {
@@ -307,36 +298,26 @@
             const iconContainer = document.getElementById('notif-icon-container');
             const text = document.getElementById('notif-message');
             text.innerText = message;
-            
-            if (type === 'download') {
-                iconContainer.innerHTML = '<svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>';
-            } else {
-                iconContainer.innerHTML = '<svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>';
-            }
+            iconContainer.innerHTML = type === 'download' 
+                ? '<svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>'
+                : '<svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>';
 
             if (alertTimeout) clearTimeout(alertTimeout);
             box.classList.add('show');
-
-            alertTimeout = setTimeout(() => {
-                box.classList.remove('show');
-                alertTimeout = null;
-            }, 3000);
+            alertTimeout = setTimeout(() => { box.classList.remove('show'); alertTimeout = null; }, 3000);
         }
 
         function getLatexString() {
             const order = ['propositions', 'segments', 'resources', 'activities', 'channels', 'relationships', 'partners', 'costs', 'revenues'];
             let content = "";
-            
             order.forEach((key, idx) => {
                 const data = bmcData[key];
                 content += `\\section{${idx + 1}. ${data.title}}\n\\begin{itemize}\n`;
-                data.items.forEach(item => {
-                    content += `    \\item ${item}\n`;
-                });
+                data.items.forEach(item => content += `    \\item ${item}\n`);
                 content += `\\end{itemize}\n\n`;
             });
 
-            return `% --- VERIDICUS OS: DOCUMENTAÇÃO ESTRATÉGICA ---
+            return `% --- VERIDICUS OS: DOCUMENTAÇÃO ---
 \\documentclass[11pt, a4paper]{article}
 \\usepackage[utf8]{inputenc}
 \\usepackage[brazilian]{babel}
@@ -344,59 +325,35 @@
 \\usepackage{xcolor}
 \\usepackage{enumitem}
 \\usepackage{titlesec}
-
 \\definecolor{vBlue}{HTML}{2563EB}
 \\titleformat{\\section}{\\normalfont\\Large\\bfseries\\color{vBlue}}{}{0em}{}[\\titlerule]
 \\setlist[itemize]{label=\\textcolor{vBlue}{\\textbullet}, leftmargin=1.5cm}
-
-\\title{\\textbf{Veridicus OS: Plano de Negócios}\\\\ \\large Documentação Linear BMC 2.1}
-\\author{Engenharia de Produto Veridicus}
+\\title{\\textbf{Veridicus OS: Plano de Negócios}\\\\ \\large Documentação BMC}
+\\author{Engenharia Veridicus}
 \\date{\\today}
-
 \\begin{document}
-
 \\maketitle
-
-\\begin{abstract}
-\\noindent Documento gerado automaticamente pelo editor Veridicus OS.
-\\end{abstract}
-
 ${content}
-
-\\vfill
-\\centering
-\\rule{0.5\\textwidth}{0.4pt}\\\\
-\\footnotesize{periciascamara.editoraviva.art.br}
 \\end{document}`;
         }
 
         function downloadLatex() {
-            const latex = getLatexString();
-            const blob = new Blob([latex], { type: 'text/plain' });
+            const blob = new Blob([getLatexString()], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
-            a.href = url;
-            a.download = 'veridicus_os_documentacao.tex';
-            document.body.appendChild(a);
-            a.click();
-            URL.revokeObjectURL(url);
-            document.body.removeChild(a);
-            showAlert("Documento .TEX baixado!", "download");
+            a.href = url; a.download = 'veridicus_os_bmc.tex';
+            document.body.appendChild(a); a.click();
+            URL.revokeObjectURL(url); document.body.removeChild(a);
+            showAlert("Arquivo .TEX baixado!", "download");
         }
 
         function copyLatex() {
-            try {
-                const latex = getLatexString();
-                const el = document.createElement('textarea');
-                el.value = latex;
-                document.body.appendChild(el);
-                el.select();
-                document.execCommand('copy');
-                document.body.removeChild(el);
-                showAlert("Código copiado para clipboard!");
-            } catch (err) {
-                showAlert("Erro ao copiar.", "error");
-            }
+            const el = document.createElement('textarea');
+            el.value = getLatexString();
+            document.body.appendChild(el);
+            el.select(); document.execCommand('copy');
+            document.body.removeChild(el);
+            showAlert("Código LaTeX copiado!");
         }
 
         window.onload = renderCanvas;
