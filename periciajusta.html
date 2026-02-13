@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMC - SaaS Perícia Justa (Impressão)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- RESET E BASE --- */
+        * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0; padding: 20px; background-color: #f4f4f9; color: #333;
+        }
+
+        /* --- ESTRUTURA DO GRID (O Canvas) --- */
+        .bmc-container {
+            display: grid;
+            /* Grid de 10 colunas para flexibilidade no layout padrão Osterwalder */
+            grid-template-columns: repeat(10, 1fr); 
+            /* 4 linhas: Cabeçalho | Bloco Superior | Bloco Inferior | Base Financeira */
+            grid-template-rows: auto 2fr 2fr 1.5fr;
+            gap: 0;
+            border: 3px solid #333;
+            background-color: #fff;
+            max-width: 1400px; margin: 0 auto;
+            min-height: 800px; /* Altura mínima para tela */
+        }
+
+        /* Cabeçalho do Documento */
+        .bmc-header {
+            grid-column: 1 / -1;
+            background-color: #1a365d; color: white;
+            padding: 15px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 3px solid #333;
+        }
+        .bmc-header h1 { margin: 0; font-size: 1.8rem; text-transform: uppercase; }
+        .bmc-header p { margin: 5px 0 0 0; font-size: 1rem; opacity: 0.9; font-weight: 400; }
+
+        /* Estilo dos Blocos Individuais */
+        .block {
+            padding: 12px;
+            border: 1px solid #ccc;
+            display: flex; flex-direction: column;
+        }
+        /* Títulos dos Blocos */
+        .block h3 {
+            font-size: 0.9rem; text-transform: uppercase;
+            color: #1a365d; margin: 0 0 10px 0;
+            display: flex; align-items: center; gap: 8px; font-weight: 700;
+        }
+        .block h3 i { color: #c05621; /* Cor de destaque laranja */ }
+
+        /* Conteúdo dos Blocos (Listas) */
+        .content ul { margin: 0; padding-left: 18px; }
+        .content li { margin-bottom: 5px; font-size: 0.85rem; line-height: 1.3; }
+        .sub-title { font-weight: 700; font-size: 0.85rem; margin-top: 8px; display: block; color: #555; }
+
+        /* --- POSICIONAMENTO DOS BLOCOS (CSS Grid Areas) --- */
+        /* Esquerda (Infraestrutura) */
+        .kp { grid-area: 2 / 1 / 4 / 3; } /* Key Partners (ocupa 2 linhas de altura) */
+        .ka { grid-area: 2 / 3 / 3 / 5; } /* Key Activities */
+        .kr { grid-area: 3 / 3 / 4 / 5; } /* Key Resources */
+
+        /* Centro (Oferta) */
+        .vp { grid-area: 2 / 5 / 4 / 7; background-color: #fdfdfe; } /* Value Proposition (Centro) */
+
+        /* Direita (Clientes) */
+        .cr { grid-area: 2 / 7 / 3 / 9; } /* Customer Relationships */
+        .ch { grid-area: 3 / 7 / 4 / 9; } /* Channels */
+        .cs { grid-area: 2 / 9 / 4 / 11; } /* Customer Segments (ocupa 2 linhas de altura) */
+
+        /* Base (Finanças) */
+        .cst { grid-area: 4 / 1 / 5 / 6; border-top: 3px solid #333; } /* Cost Structure */
+        .rs  { grid-area: 4 / 6 / 5 / 11; border-top: 3px solid #333; border-left: 3px solid #333;} /* Revenue Streams */
+
+
+        /* --- MODO IMPRESSÃO (CRÍTICO) --- */
+        @media print {
+            @page {
+                size: A4 landscape; /* Força orientação paisagem */
+                margin: 5mm; /* Margens mínimas para aproveitar o papel */
+            }
+            body {
+                padding: 0; margin: 0; background: white;
+            }
+            .bmc-container {
+                width: 100% !important;
+                height: 98vh !important; /* Ocupa toda a altura da folha */
+                max-width: none;
+                border: 2px solid #000; /* Bordas em preto puro */
+            }
+            .block { border-color: #000; }
+            .bmc-header { background-color: #1a365d !important; color: white !important; }
+            /* Ajuste fino de fonte para caber tudo */
+            .content li { font-size: 9pt; } 
+            .sub-title { font-size: 9pt; color: #000; }
+            .block h3 { color: #000; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bmc-container">
+        
+        <div class="bmc-header">
+            <div>
+                <h1>Business Model Canvas</h1>
+                <p>SaaS Perícia Justa | Ecossistema de Acesso à Justiça</p>
+            </div>
+            <div style="text-align: right; font-size: 0.9rem;">
+                Versão Impressa Baseada no Pitch Deck
+            </div>
+        </div>
+
+        <div class="block kp">
+            <h3><i class="fas fa-handshake"></i> Parcerias Principais</h3>
+            <div class="content">
+                <ul>
+                    <li><strong>Instituto Perícia Justa:</strong> Qualificação da rede e selo de qualidade.</li>
+                    <li><strong>Veridicus I.A:</strong> Tecnologia de análise preditiva.</li>
+                    <li><strong>Poder Judiciário (Varas Piloto):</strong> Validação B2G e integração.</li>
+                    <li><strong>OAB / Sindicatos Médicos:</strong> Canais de acesso ao B2B.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="block ka">
+            <h3><i class="fas fa-tasks"></i> Atividades Chave</h3>
+            <div class="content">
+                <ul>
+                    <li>Desenvolvimento e manutenção da Plataforma SaaS.</li>
+                    <li>Triagem e pré-análise de documentos (Humano + IA).</li>
+                    <li>Gestão da comunidade de peritos.</li>
+                    <li>Vendas B2B e Gestão de contratos B2G.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="block kr">
+            <h3><i class="fas fa-gem"></i> Recursos Principais</h3>
+            <div class="content">
+                <ul>
+                    <li>Plataforma Tecnológica (Hub Digital).</li>
+                    <li>Algoritmos de IA treinados (Veridicus).</li>
+                    <li>Rede de Peritos Qualificados (Instituto).</li>
+                    <li>Equipe Multidisciplinar (Jurídico, Médico, Tech).</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="block vp">
+            <h3><i class="fas fa-gift"></i> Proposta de Valor</h3>
+            <div class="content">
+                <span class="sub-title">Para o Cidadão (B2C):</span>
+                <ul>
+                    <li>Acesso simplificado à justiça social.</li>
+                    <li>Tradução do "juridiquês" e pré-análise de viabilidade.</li>
+                </ul>
+                <span class="sub-title">Para Profissionais (B2B):</span>
+                <ul>
+                    <li>Economia de tempo na análise de casos.</li>
+                    <li>Gestão centralizada de perícias e aumento de êxito.</li>
+                </ul>
+                <span class="sub-title">Para o Governo (B2G):</span>
+                    <ul>
+                        <li>Desafogamento de filas no Judiciário e INSS.</li>
+                        <li>Processos melhor instruídos tecnicamente.</li>
+                    </ul>
+            </div>
+        </div>
+
+        <div class="block cr">
+            <h3><i class="fas fa-heart"></i> Relacionamento</h3>
+            <div class="content">
+                <ul>
+                    <li><strong>Cidadão:</strong> Self-service (App) e Automatizado.</li>
+                    <li><strong>B2B/B2G:</strong> Suporte dedicado e Customer Success.</li>
+                    <li><strong>Comunidade:</strong> Engajamento via Instituto.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="block ch">
+            <h3><i class="fas fa-truck"></i> Canais</h3>
+            <div class="content">
+                <ul>
+                    <li>Plataforma Web (SaaS).</li>
+                    <li>App Mobile.</li>
+                    <li>Instituto (Captação orgânica).</li>
+                    <li>Parcerias B2B (Escritórios).</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="block cs">
+            <h3><i class="fas fa-users"></i> Segmentos de Clientes</h3>
+            <div class="content">
+                <span class="sub-title">1. B2C (Cidadão):</span>
+                <ul>
+                    <li>Pessoas com demandas de avaliação de direito social (INSS, DPVAT).</li>
+                </ul>
+                <span class="sub-title">2. B2B (Profissionais):</span>
+                <ul>
+                    <li>Advogados e Escritórios Jurídicos.</li>
+                    <li>Médicos e Empresas Médicas.</li>
+                </ul>
+                <span class="sub-title">3. B2G (Governo):</span>
+                <ul>
+                    <li>Poder Judiciário e Órgãos de Previdência (INSS).</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="block cst">
+            <h3><i class="fas fa-tags"></i> Estrutura de Custos</h3>
+            <div class="content" style="display: flex; gap: 20px;">
+                <ul>
+                    <li>Desenvolvimento de Tecnologia (P&D).</li>
+                    <li>Infraestrutura Cloud e IA.</li>
+                </ul>
+                <ul>
+                    <li>Equipe Comercial e Marketing (CAC).</li>
+                    <li>Operacional e Jurídico.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="block rs">
+            <h3><i class="fas fa-cash-register"></i> Fontes de Receita</h3>
+            <div class="content" style="display: flex; gap: 20px;">
+                <ul>
+                    <li><strong>B2B:</strong> Assinatura SaaS recorrente.</li>
+                    <li><strong>B2G:</strong> Licenciamento de software.</li>
+                </ul>
+                <ul>
+                    <li><strong>B2C:</strong> Taxas transacionais por laudo/avaliação.</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
